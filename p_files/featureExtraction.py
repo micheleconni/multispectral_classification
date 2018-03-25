@@ -11,10 +11,10 @@ from radiomics import featureextractor
 
 def main():
   outPath = r''
-  inputCSV = os.path.join(outPath, 'paths.csv') # initially: 'testCase.csv'
+  inputCSV = os.path.join(outPath, 'paths.csv')
   outputFilepath = os.path.join(outPath, 'features.csv')
   progress_filename = os.path.join(outPath, 'pyrad_log.txt')
-  params = os.path.join(outPath, 'exampleSettings', 'params.yaml')
+  params = os.path.join(outPath,'params.yaml')
 
   # Configure logging
   rLogger = logging.getLogger('radiomics')
@@ -52,7 +52,7 @@ def main():
     extractor = featureextractor.RadiomicsFeaturesExtractor(params)
   else:  # Parameter file not found, use hardcoded settings instead
     settings = {}
-    settings['binWidth'] = 25
+    settings['binWidth'] = 1
     settings['resampledPixelSpacing'] = None  # [3,3,3]
     settings['interpolator'] = sitk.sitkBSpline
     settings['enableCExtensions'] = True
@@ -90,6 +90,7 @@ def main():
       featureVector = flists[entry]
       featureVector['Image'] = os.path.basename(imageFilepath)
       featureVector['Mask'] = os.path.basename(maskFilepath)
+      
 
       try:
         # PyRadiomics returns the result as an ordered dictionary, which can be easily converted to a pandas Series
