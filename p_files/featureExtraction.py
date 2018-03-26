@@ -42,7 +42,7 @@ def main():
     flists = pandas.read_csv(inputCSV).T
   except Exception:
     logger.error('CSV READ FAILED', exc_info=True)
-    exit(-1)
+    exit(-1)    
 
   logger.info('Loading Done')
   logger.info('Images: %d', len(flists.columns))
@@ -52,7 +52,7 @@ def main():
     extractor = featureextractor.RadiomicsFeaturesExtractor(params)
   else:  # Parameter file not found, use hardcoded settings instead
     settings = {}
-    settings['binWidth'] = 1
+    settings['binWidth'] = 25
     settings['resampledPixelSpacing'] = None  # [3,3,3]
     settings['interpolator'] = sitk.sitkBSpline
     settings['enableCExtensions'] = True
