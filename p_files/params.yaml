@@ -1,0 +1,31 @@
+# -*- coding: utf-8 -*-
+
+# numberOfImages = 60
+
+imageType: 
+    Original: {}
+    
+featureClass:
+    firstorder:
+    glcm:
+    gldm:
+    glrlm:
+    glszm:
+    ngtdm:
+    
+setting:
+    binWidth: 25
+    #normalize: False
+    #normalizeScale: 1
+    #removeOutliers: None
+    #resampledPixelSpacing: None
+    interpolator: sitkBSpline
+    #preCrop: False
+    #padDistance: 5
+    #distances: [1]
+    #force2D: False
+    #force2Ddimension: 0
+    #resegmentRange: None
+    label: 1
+    enableCExtensions: True
+    #additionalInfo: True
