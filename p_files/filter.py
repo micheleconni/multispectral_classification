@@ -34,13 +34,13 @@ waves = np.arange(400, 785, 5)
 time_start = time.time()
 
 # cycle on images
-for n_img in range(1, 2):
+for n_img in range(9, 61):
     # put a 0 in front of the number if it has no decimals
     if n_img < 10:
         n_img = '0{}'.format(n_img)
 
     # import nrrd file
-    data = nrrd.read('../SpecTex/T{}.nrrd'.format(n_img))[0]  # Load multi-spectral image from nrrd file
+    data = nrrd.read('./T{}.nrrd'.format(n_img))[0]  # Load multi-spectral image from nrrd file
 
     # # import multi-spectral files in list of arrays
     # for k in range(1, len(waves) + 1):
@@ -71,18 +71,24 @@ for n_img in range(1, 2):
         sim_shape[2] = n
         sim_shape = tuple(sim_shape)
         simulation = np.zeros(sim_shape)
+        # introduce list to save results
+        filtered = []
         # filter each pixel of data
         for i in range(len(sensitivity)):
             # weight each pixel of data on ith sensitivity and sum over third dimension
-            filtered = np.dot(data, sensitivity[i])
-            # generate directory, if needed
-            directory = '../SpecTex/T{}/Simulation{}'.format(n_img, n)
-            if not os.path.exists(directory):
-                os.makedirs(directory)
-            # save filtered image, ith channel
-            np.savetxt('{}/{}.txt'.format(directory, i+1), filtered, delimiter=' ')
-            # export output to simulation variable
-            simulation[:, :, i] = filtered
+            filtered.append(np.dot(data, sensitivity[i]))
+        # convert list to array
+        filtered = np.asarray(filtered, dtype=np.float64)
+        # reshape in order to get right dimensions
+        filtered = filtered.reshape((data.shape[0], data.shape[1], n))
+        # generate directory, if needed
+        directory = './T{}'.format(n_img)
+        if not os.path.exists(directory):
+            os.makedirs(directory)
+        # save filtered image, ith channel
+        # np.savetxt('{}/{}.txt'.format(directory, i+1), filtered, delimiter=' ')
+        # Create the image as a nrrd-file
+        nrrd.write('{}/{}_{}.nrrd'.format(directory, n_img, n), filtered, {u'type': 'double'})
 
     # get how long does one iteration take
     if n_img == '01':
