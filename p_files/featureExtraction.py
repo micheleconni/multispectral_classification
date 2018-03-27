@@ -12,7 +12,7 @@ from radiomics import featureextractor
 def main():
   outPath = r''
   inputCSV = os.path.join(outPath, 'paths.csv')
-  outputFilepath = os.path.join(outPath, 'features.csv')
+  outputFilepath = os.path.join(outPath, 'features.xlsx')
   progress_filename = os.path.join(outPath, 'pyrad_log.txt')
   params = os.path.join(outPath,'params.yaml')
 
@@ -109,10 +109,10 @@ def main():
       # it is 'joined' with the empty data frame.
       results = results.join(featureVector, how='outer')  # If feature extraction failed, results will be all NaN
 
-  logger.info('Extraction complete, writing CSV')
+  logger.info('Extraction complete, writing Excel')
   # .T transposes the data frame, so that each line will represent one patient, with the extracted features as columns
-  results.T.to_csv(outputFilepath, index=False, na_rep='NaN')
-  logger.info('CSV writing complete')
+  results.T.to_excel(outputFilepath, index=False, na_rep='NaN')
+  logger.info('Excel writing complete')
 
 if __name__ == '__main__':
   main()
