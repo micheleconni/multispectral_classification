@@ -16,7 +16,7 @@ def knn(X_std_train, X_std_test, y_train, y_test):
     print('Training score:', score)
     return(model)
 
-""" ------------------- Feature selector ---------------------------"""
+""" ----------------------- Feature selector ---------------------------"""
 from skrebate import ReliefF
 from sklearn.decomposition import PCA
 
@@ -44,23 +44,23 @@ def pca(X_std_train, X_std_test, y_train, n_features):
 
 if __name__ == '__main__':
     
-    xls = pd.ExcelFile("all_features.xlsx")         # The excel file with features
-    data_raw_df = pd.read_excel(xls, index_col = 0) # Reads the excel file.
+    xls = pd.ExcelFile("all_features.xlsx")         # the excel file with features
+    data_raw_df = pd.read_excel(xls, index_col = 0) # reads the excel file
     y_name = 'Class'                                # name of y variable in the excel sheet
     y = data_raw_df[y_name].values                  # make y
     X= data_raw_df.drop(y_name,1)                   # make X
     
-    state = 21                                      # seed in some way
+    state = 21                                      # seed
     stdsc = StandardScaler()
-    colNames = list(X.columns)                      # Makes name for the columns, use in the relieff
-    n_features = 5
+    colNames = list(X.columns)                      # Makes name for the columns, use in the relieff feature selector
+    n_features = 5                                  # Used in relieff, and might be used in the knn classifier 
+                                                    # (standard number of features in knn are 5)
     
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.33) # random_state=state
-    X_std_train = stdsc.fit_transform(X_train)  # Standardize data
-    X_std_test = stdsc.transform(X_test)        # Standardize data
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.33) # split data into train and test
+    X_std_train = stdsc.fit_transform(X_train)      # Standardize data
+    X_std_test = stdsc.transform(X_test)            # Standardize data
     
-    #X_std_train, X_std_test = relieff(X_std_train, X_std_test, y_train, n_features, colNames) # Selector
-    #X_std_train, X_std_test = pca(X_std_train, X_std_test, y_train, n_features)           # Selector
+    #X_std_train, X_std_test = relieff(X_std_train, X_std_test, y_train, n_features, colNames)  # feature selector
+    #X_std_train, X_std_test = pca(X_std_train, X_std_test, y_train, n_features)                # feature selector
 
-    model = knn(X_std_train, X_std_test, y_train, y_test) # Classifying
-    result = model.score(X_std_test,y_test)
+    model = knn(X_std_train, X_std_test, y_train, y_test) # Train and test
