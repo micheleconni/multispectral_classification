@@ -64,4 +64,3 @@ if __name__ == '__main__':
 
     model = knn(X_std_train, X_std_test, y_train, y_test) # Classifying
     result = model.score(X_std_test,y_test)
-    print ('Score:', result)
