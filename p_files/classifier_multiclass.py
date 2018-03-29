@@ -56,7 +56,7 @@ if __name__ == '__main__':
     n_features = 5                                  # Used in relieff, and might be used in the knn classifier 
                                                     # (standard number of features in knn are 5)
     
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.33) # split data into train and test
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.33, random_state=state) # split data into train and test
     X_std_train = stdsc.fit_transform(X_train)      # Standardize data
     X_std_test = stdsc.transform(X_test)            # Standardize data
     
